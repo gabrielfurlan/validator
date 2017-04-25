@@ -1,14 +1,25 @@
-var validates = require("./validates");
+var validates = require("./rules/validates");
 
 module.exports = function (values, rules, messages) {
 	
 	var _rules = rules;
 	var _values = values;
 	var _messages = messages;
+	var _messagesDefault = {
+		required 	: "Required field",
+		maxlength	: "Maximum character size of the field.",
+		minlength	: "Minimum character size of the field.",
+		max 		: "The maximum value of the field exceeded.",
+		min 		: "The minimum field value exceeded.",
+		email 		: "Invalid email.",
+		url	 		: "Invalid link.",
+		regexp 		: "Invalid field.",
+		equals 		: "This field must be identical to the corresponding field."
+	}
 
 	this.init = new Promise(function(resolve, reject) {
 
-		var validate = new Promise(function(resolve, reject) {
+		var splitRules = new Promise(function(resolve, reject) {
 			var rules = new Object();
 			Object.keys(_rules).map(function(key) {
 				rules[key] = _rules[key].split("|");
@@ -16,12 +27,12 @@ module.exports = function (values, rules, messages) {
 			resolve(rules);
 		});
 	
-		validate.then(function(values) {
+		splitRules.then(function(rules) {
 			var isValid = true;
 			var errors = new Object();
-			Object.keys(values).map(function (key){
+			Object.keys(rules).map(function(key) {
 				var msgs = new Array(); 
-				values[key].map(function(rule) {
+				rules[key].map(function(rule) {
 					var name = rule;
 					var param = null;
 					if(rule.indexOf(":") != -1) {
@@ -30,7 +41,8 @@ module.exports = function (values, rules, messages) {
 					}
 
 					if(!validates[name](_values, _values[key], param)) {
-						msgs.push(_messages[key+"."+name]);
+						if(_messages[key+"."+name] != null) msgs.push(_messages[key+"."+name]);
+						else msgs.push(_messagesDefault[name]);
 						isValid = false;
 					}
 				});
@@ -38,8 +50,8 @@ module.exports = function (values, rules, messages) {
 				errors[key] = msgs;
 			});
 			
-			if(isValid) resolve({valideted: true, values: _values});
-			else return resolve({valideted: false, errors: errors, values: _values});
+			if(isValid) resolve({validated: true, values: _values});
+			else return resolve({validated: false, errors: errors, values: _values});
 		});
 	});
 }
