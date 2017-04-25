@@ -1,0 +1,16 @@
+{
+  "name": "thevelops-validator",
+  "version": "1.0.0",
+  "description": "Form validator",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gabrielfurlan/validator.git"
+  },
+  "author": "Coletivo Thevelops",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gabrielfurlan/validator/issues"
+  },
+  "homepage": "https://github.com/gabrielfurlan/validator#readme"
+}
