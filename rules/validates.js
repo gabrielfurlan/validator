@@ -40,7 +40,7 @@ module.exports = {
 	},
 
 	url: function(objeto, value) {
-		if(String(value).trim() !== "" || value != null){
+		if(String(value).trim() != "" && value != null){
 			expression = new RegExp("^(https?:\/\/)(www.)(\\w{1,})(\\.)(\\w{2,})$");
 			return expression.test(value);
 		} else {
@@ -49,7 +49,7 @@ module.exports = {
 	},
 
 	regexp: function(objeto, value, expression) {
-		if(String(value).trim() !== "" || value != null){
+		if(String(value).trim() !== "" && value != null){
 			expression = new RegExp(expression);
 			return expression.test(value);
 		} else {
