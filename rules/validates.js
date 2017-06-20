@@ -40,13 +40,21 @@ module.exports = {
 	},
 
 	url: function(objeto, value) {
-		expression = new RegExp("^(https?:\/\/)(www.)(\\w{1,})(\\.)(\\w{2,})$");
-		return expression.test(value);
+		if(String(value).trim() === "" || value == null){
+			expression = new RegExp("^(https?:\/\/)(www.)(\\w{1,})(\\.)(\\w{2,})$");
+			return expression.test(value);
+		} else {
+			return true;
+		}
 	},
 
 	regexp: function(objeto, value, expression) {
-		expression = new RegExp(expression);
-		return expression.test(value);
+		if(String(value).trim() === "" || value == null){
+			expression = new RegExp(expression);
+			return expression.test(value);
+		} else {
+			return true;
+		}
 	},
 
 	equals: function(object, value, index) {
